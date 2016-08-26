@@ -247,34 +247,12 @@ Sometimes removing code from a class can mean that some imports are no longer ne
 
 #### 2.2.1 Field definition and naming
 
-All fields should be declared at the top of the file, following these rules:
+All fields should be declared at the top of the file, following the rules from [Android style guide](http://source.android.com/source/code-style.html#follow-field-naming-conventions):
 
 
-- Private, non-static field names should not start with m. This is right:
-
-    userSignedIn, userNameText, acceptButton
-
-Not this:
-
-    mUserSignedIn, mUserNameText, mAcceptButton
-
-
-- Private, static field names do not need to start with an s. This is right:
-
-    someStaticField, userNameText
-
-Not this:
-
-	sSomeStaticField, sUserNameText
-
-
-- All other fields also start with a lower case letter.
-
-
-    int numOfChildren;
-    String username;
-
-
+- Private, non-static field names start with m.
+- Static field names start with s.
+- Other fields start with a lower case letter.
 - Static final fields (known as constants) are ALL_CAPS_WITH_UNDERSCORES.
 
 

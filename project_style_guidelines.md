@@ -1215,3 +1215,31 @@ Where dependencies are only used individually for application or test purposes, 
 
 
     testCompile 'org.robolectric:robolectric:3.0'
+
+Below are taken from [futurice/android-best-practices](https://github.com/futurice/android-best-practices/blob/master/README.md)
+
+### 0. Java packages architecture
+
+Java architectures for Android applications can be roughly approximated in [Model-View-Controller](http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller). In Android, [Fragment and Activity are actually controller classes](http://www.informit.com/articles/article.aspx?p=2126865). On the other hand, they are explicitly part of the user interface, hence are also views.
+
+For this reason, it is hard to classify fragments (or activities) as strictly controllers or views. It's better to let them stay in their own `fragments` package. Activities can stay on the top-level package as long as you follow the advice of the previous section. If you are planning to have more than 2 or 3 activities, then make also an `activities` package.
+
+Otherwise, the architecture can look like a typical MVC, with a `models` package containing POJOs to be populated through the JSON parser with API responses, and a `views` package containing your custom Views, notifications, action bar views, widgets, etc. Adapters are a gray matter, living between data and views. However, they typically need to export some View via `getView()`, so you can include the `adapters` subpackage inside `views`.
+
+Some controller classes are application-wide and close to the Android system. These can live in a `managers` package. Miscellaneous data processing classes, such as "DateUtils", stay in the `utils` package. Classes that are responsible for interacting with the backend stay in the `network` package.
+
+All in all, ordered from the closest-to-backend to the closest-to-the-user:
+
+```
+com.futurice.project
+├─ network
+├─ models
+├─ managers
+├─ utils
+├─ fragments
+└─ views
+   ├─ adapters
+   ├─ actionbar
+   ├─ widgets
+   └─ notifications
+```

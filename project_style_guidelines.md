@@ -12,15 +12,15 @@ When contributing work, the project should maintain the following structure:
 
 
 
-	src/androidTest
-	src/test
-	src/commonTest
-	src/main
+    src/androidTest
+    src/test
+    src/commonTest
+    src/main
 
 
-**androidTest** - Directory containing functional tests    
-**test** - Directory containing unit tests  
-**commonTest** - Directory containing shared test code for AndroidTest & Test  
+**androidTest** - Directory containing functional tests
+**test** - Directory containing unit tests
+**commonTest** - Directory containing shared test code for AndroidTest & Test
 **main** - Directory containing application code
 
 The structure of the project should remain as defined above whenever you are modifying or adding new features.
@@ -34,12 +34,12 @@ Using this structure allows us to keep the application code seperated from any t
 
 Any classes that you define should be named using UpperCamelCase, for example:
 
-	AndroidActivity, NetworkHelper, UserFragment, PerActivity
+    AndroidActivity, NetworkHelper, UserFragment, PerActivity
 
 
 Any classes extending an Android framework component should **always** end with the component name. For example:
 
-	UserFragment, SignUpActivity, RateAppDialog, PushNotificationServer, NumberView
+    UserFragment, SignUpActivity, RateAppDialog, PushNotificationServer, NumberView
 
 We use UpperCamelCase as this helps to seperate the words used to create the name, making it easier to read. Naming classes to end with the framework component makes it super clear as to what the class is used for. For example, if you're looking to make changes to the RegistrationDialog then this naming convention makes it really easy to locate that class.
 
@@ -47,7 +47,7 @@ We use UpperCamelCase as this helps to seperate the words used to create the nam
 
 When naming resource files you should be sure to name them using lowercase letters and underscores instead of spaces, for example:
 
-	activity_main, fragment_user, item_post
+    activity_main, fragment_user, item_post
 
 This convention again makes it really easy to locate the specific layout file that you're looking for. Within android studio, the layout package is sorted in alphabetical order meaning that activity, fragment and other layout types becomes grouped - so you know where to begin looking for a file. Other than this, begining the file name with the component name makes it clear what component/class the layout file is being used for.
 
@@ -56,11 +56,11 @@ This convention again makes it really easy to locate the specific layout file th
 
 Drawable resource files should be named using the **ic_** prefix along with the size and color of the asset. For example, white accept icon sized at 24dp would be named:
 
-	ic_accept_24dp_white
+    ic_accept_24dp_white
 
 And a black cancel icon sized at 48dp would be named:
 
-	ic_cancel_48dp_black
+    ic_cancel_48dp_black
 
 We use this naming convention so that a drawable file is recognisable by its name. If the colour and size are not stated in the name, then the developer needs to open the drawable file to find out this information. This saves us a little bit of time :)
 
@@ -113,7 +113,7 @@ Menu files do not need to be prefixed with the menu_ prefix. This is because the
 
 All resource file names should be plural, for example:
 
-	attrs.xml, strings.xml, styles.xml, colors.xml, dimens.xml
+    attrs.xml, strings.xml, styles.xml, colors.xml, dimens.xml
 
 
 
@@ -125,24 +125,24 @@ All resource file names should be plural, for example:
 
 Avoid not handling exceptions in the correct manner. For example:
 
-	public void setUserId(String id) {
-    	try {
-        	mUserId = Integer.parseInt(id);
-    	} catch (NumberFormatException e) { }
-	}
+    public void setUserId(String id) {
+        try {
+            mUserId = Integer.parseInt(id);
+        } catch (NumberFormatException e) { }
+    }
 
 This gives no information to both the developer and the user, making it harder to debug and could also leave the user confused if something goes wrong. When catching an exception, we should also always log the error to the console for debugging purposes and if necessary alert the user of the issue. For example:
 
 
-	public void setCount(String count) {
-    	try {
-        	count = Integer.parseInt(id);
-    	} catch (NumberFormatException e) {
-    		count = 0;
-        	Log.e(TAG, "There was an error parsing the count " + e);
-        	DialogFactory.showErrorMessage(R.string.error_message_parsing_count);
-    	}
-	}
+    public void setCount(String count) {
+        try {
+            count = Integer.parseInt(id);
+        } catch (NumberFormatException e) {
+            count = 0;
+            Log.e(TAG, "There was an error parsing the count " + e);
+            DialogFactory.showErrorMessage(R.string.error_message_parsing_count);
+        }
+    }
 
 Here we handle the error appropriately by:
 
@@ -157,14 +157,14 @@ Here we handle the error appropriately by:
 Catching exceptions generally should not be done:
 
 
-	public void openCustomTab(Context context, Uri uri) {
-    	Intent intent = buildIntent(context, uri);
-    	try {
-        	context.startActivity(intent);
-    	} catch (Exception e) {
-        	Log.e(TAG, "There was an error opening the custom tab " + e);
-    	}
-	}
+    public void openCustomTab(Context context, Uri uri) {
+        Intent intent = buildIntent(context, uri);
+        try {
+            context.startActivity(intent);
+        } catch (Exception e) {
+            Log.e(TAG, "There was an error opening the custom tab " + e);
+        }
+    }
 
 Why?
 
@@ -172,45 +172,45 @@ Why?
 
 Instead, catch the expected exception and handle it accordingly:
 
-	public void openCustomTab(Context context, Uri uri) {
-    	Intent intent = buildIntent(context, uri);
-    	try {
-        	context.startActivity(intent);
-    	} catch (ActivityNotFoundException e) {
-        	Log.e(TAG, "There was an error opening the custom tab " + e);
-    	}
-	}
+    public void openCustomTab(Context context, Uri uri) {
+        Intent intent = buildIntent(context, uri);
+        try {
+            context.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Log.e(TAG, "There was an error opening the custom tab " + e);
+        }
+    }
 
 
 #### 2.1.3 Grouping exceptions
 
 Where exceptions execute the same code, they should be grouped in-order to increase readability and avoid code duplication. For example, where you may do this:
 
-	public void openCustomTab(Context context, @Nullable Uri uri) {
-    	Intent intent = buildIntent(context, uri);
-    	try {
-        	context.startActivity(intent);
-    	} catch (ActivityNotFoundException e) {
-        	Log.e(TAG, "There was an error opening the custom tab " + e);
-    	} catch (NullPointerException e) {
-        	Log.e(TAG, "There was an error opening the custom tab " + e);
-    	} catch (SomeOtherException e) {
-    		// Show some dialog
+    public void openCustomTab(Context context, @Nullable Uri uri) {
+        Intent intent = buildIntent(context, uri);
+        try {
+            context.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Log.e(TAG, "There was an error opening the custom tab " + e);
+        } catch (NullPointerException e) {
+            Log.e(TAG, "There was an error opening the custom tab " + e);
+        } catch (SomeOtherException e) {
+            // Show some dialog
         }
-	}
+    }
 
 You could do this:
 
-	public void openCustomTab(Context context, @Nullable Uri uri) {
-    	Intent intent = buildIntent(context, uri);
-    	try {
-        	context.startActivity(intent);
-    	} catch (ActivityNotFoundException e | NullPointerException e) {
-        	Log.e(TAG, "There was an error opening the custom tab " + e);
-    	} catch (SomeOtherException e) {
-    		// Show some dialog
+    public void openCustomTab(Context context, @Nullable Uri uri) {
+        Intent intent = buildIntent(context, uri);
+        try {
+            context.startActivity(intent);
+        } catch (ActivityNotFoundException e | NullPointerException e) {
+            Log.e(TAG, "There was an error opening the custom tab " + e);
+        } catch (SomeOtherException e) {
+            // Show some dialog
         }
-	}
+    }
 
 
 #### 2.1.4 Using try-catch over throw exception
@@ -303,9 +303,9 @@ If and when container names change in the future, the naming of these can often 
 
 Naming variables, method and / or classes with similar names can make it confusing for other developers reading over your code. For example:
 
-	hasUserSelectedSingleProfilePreviously
+    hasUserSelectedSingleProfilePreviously
 
-	hasUserSelectedSignedProfilePreviously
+    hasUserSelectedSignedProfilePreviously
 
 Distinguishing the difference between these at a first glance can be hard to understand what is what. Naming these in a clearer way can make it easier for developers to navigate the fields in your code.
 
@@ -313,11 +313,11 @@ Distinguishing the difference between these at a first glance can be hard to und
 
 When Android Studio auto-generates code for us, it's easy to leave things as they are - even when it generate horribly named parameters! For example, this isn't very nice:
 
-	public void doSomething(String s1, String s2, String s3)
+    public void doSomething(String s1, String s2, String s3)
 
 It's hard to understand what these parameters do without reading the code. Instead:
 
-	public void doSomething(String userName, String userEmail, String userId)
+    public void doSomething(String userName, String userEmail, String userId)
 
 That makes it much easier to understand! Now we'll be able to read the code following the parameter with a much clearer understanding 🙂
 
@@ -391,37 +391,37 @@ Braces should always be used on the same line as the code before them. For examp
 
     class SomeClass
     {
-    	private void someFunction()
-    	{
-        	if (isSomething)
-        	{
+        private void someFunction()
+        {
+            if (isSomething)
+            {
 
-        	}
-        	else if (!isSomethingElse)
-        	{
+            }
+            else if (!isSomethingElse)
+            {
 
-        	}
-        	else
-        	{
+            }
+            else
+            {
 
-        	}
-    	}
-	}
+            }
+        }
+    }
 
 And instead, do this:
 
 
-	class SomeClass {
-    	private void someFunction() {
-        	if (isSomething) {
+    class SomeClass {
+        private void someFunction() {
+            if (isSomething) {
 
-        	} else if (!isSomethingElse) {
+            } else if (!isSomethingElse) {
 
-        	} else {
+            } else {
 
-        	}
-    	}
-	}
+            }
+        }
+    }
 
 Not only is the extra line for the space not really necessary, but it makes blocks easier to follow when reading the code.
 
@@ -593,23 +593,23 @@ Any fields declared at the top of a class file should be ordered in the followin
 
 For example:
 
-	public static enum {
-		ENUM_ONE, ENUM_TWO
-	}
+    public static enum {
+        ENUM_ONE, ENUM_TWO
+    }
 
-	public static final String KEY_NAME = "KEY_NAME";
-	public static final int COUNT_USER = 0;
+    public static final String KEY_NAME = "KEY_NAME";
+    public static final int COUNT_USER = 0;
 
-	@Inject SomeAdapter someAdapter;
+    @Inject SomeAdapter someAdapter;
 
-	@BindView(R.id.text_name) TextView nameText;
-	@BindView(R.id.image_photo) ImageView photoImage;
+    @BindView(R.id.text_name) TextView nameText;
+    @BindView(R.id.image_photo) ImageView photoImage;
 
-	private int userCount;
-	private String errorMessage;
+    private int userCount;
+    private String errorMessage;
 
-	public int someCount;
-	public String someString;
+    public int someCount;
+    public String someString;
 
 Using this ordering convention helps to keep field declarations grouped, which increases both the locating of and readability of said fields.
 
@@ -755,7 +755,7 @@ When creating new instances of a fragment or activity that involves passing data
 
 #### 2.2.21 Line Length Limit
 
-Code lines should exceed no longer than 100 characters, this makes the code more readable. Sometimes to achieve this, we may need to:
+Code lines should exceed no longer than 150 characters, this makes the code more readable. Sometimes to achieve this, we may need to:
 
 
 - Extract data to a local variable
@@ -804,8 +804,8 @@ In the case that a method contains long parameters, we should line break where a
 
 
     private void someMethod(Context context, String someLongStringName, String text,
-                                long thisIsALong, String anotherString) {               
-    }             
+                                long thisIsALong, String anotherString) {
+    }
 
 And when calling that method we should break after the comma of each parameter:
 

@@ -247,11 +247,14 @@ Sometimes removing code from a class can mean that some imports are no longer ne
 
 #### 2.2.1 Field definition and naming
 
-All fields should be declared at the top of the file, following the rules from [Android style guide](http://source.android.com/source/code-style.html#follow-field-naming-conventions):
+All fields (except POJO model and view model classes) should be declared at the top of the file, following the rules from [Android style guide](http://source.android.com/source/code-style.html#follow-field-naming-conventions):
 
 
 - Private, non-static field names start with m.
 - Static field names start with s.
+
+**The above two only applies to non-POJO model and view model classes.**
+
 - Other fields start with a lower case letter.
 - Static final fields (known as constants) are ALL_CAPS_WITH_UNDERSCORES.
 
